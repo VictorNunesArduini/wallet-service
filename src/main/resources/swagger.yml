@@ -27,27 +27,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Wallet'
+              $ref: '#/components/schemas/WalletRequest'
       responses:
-        '201':
+        '200':
           description: Created Wallet
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/WalletResponse'
-  /wallet/{name}/order:
+  /wallet/{id}/order:
     post:
       tags:
         - wallet
       summary: Execute a client wallet order
       operationId: executeOrder
       parameters:
-        - name: name
+        - name: id
           in: path
-          description: The wallet name
+          description: The wallet id
           required: true
           schema:
-            type: string
+            type: integer
+            format: int64
         - name: clientId
           in: header
           description: Client id of the wallet creation
@@ -61,15 +62,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Wallet'
+              $ref: '#/components/schemas/WalletOrderRequest'
       responses:
-        '201':
-          description: Created Wallet
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/WalletResponse'
-  /wallet/{name}/balance:
+        '202':
+          description: Order will be processed
+  /wallet/{id}/balance:
     get:
       tags:
         - wallet
@@ -83,12 +80,13 @@ paths:
           schema:
             type: string
             format: date
-        - name: name
+        - name: id
           in: path
-          description: The wallet name
+          description: The wallet id
           required: true
           schema:
-            type: string
+            type: integer
+            format: int64
         - name: clientId
           in: header
           description: Client id of the wallet
@@ -102,7 +100,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WalletResponse'
+                $ref: '#/components/schemas/WalletBalanceResponse'
 
   /user:
     post:
@@ -116,9 +114,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/UserRequest'
       responses:
-        '201':
+        '200':
           description: Created User
           content:
             application/json:
@@ -134,7 +132,15 @@ components:
         - WITHDRAW
         - DEPOSIT
         - TRANSFER
-    Wallet:
+    
+    WalletOrderRequest:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/OrderType'
+        value:
+          type: number
+    WalletRequest:
       type: object
       properties:
         name:
@@ -149,24 +155,25 @@ components:
         name:
           type: string
           example: "My Wallet"
+        balance:
+          type: number 
         createdAt:
           type: string
           format: date-time
         updatedAt:
           type: string
           format: date-time
-    User:
+    WalletBalanceResponse:
+      type: object
+      properties:
+        balance:
+          type: number
+    UserRequest:
       type: object
       properties:
         name:
           type: string
           example: "Victor Arduini"
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
     UserResponse:
       type: object
       properties:
