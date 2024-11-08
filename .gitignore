@@ -40,3 +40,8 @@ build/
 *.zip
 *.tar.gz
 *.rar
+
+# Desconsiderar arquivos .DS_Store
+.DS_Store
+
+*.db

@@ -56,6 +56,13 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: walletIdTarget
+          in: header
+          description: Target wallet id of transfer, when type equal to TRANSFER
+          required: false
+          schema:
+            type: integer
+            format: int64
       requestBody:
         description: Create a new wallet to the specified user
         required: true
