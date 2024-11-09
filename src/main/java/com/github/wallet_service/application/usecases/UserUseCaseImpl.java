@@ -1,4 +1,4 @@
-package com.github.wallet_service.application;
+package com.github.wallet_service.application.usecases;
 
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Singleton
 @Service
-public class UserApplicationImpl implements UserApplication {
+public class UserUseCaseImpl implements UserApplication {
 
     private final UserRepository userRepository;
 

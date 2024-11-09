@@ -1,4 +1,4 @@
-package com.github.wallet_service.application;
+package com.github.wallet_service.application.usecases;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import com.github.wallet_service.application.model.OrderDTO;
 import com.github.wallet_service.application.model.WalletDTO;
 import com.github.wallet_service.application.port.WalletApplication;
-import com.github.wallet_service.infrastructure.exitpoint.repository.entity.TransactionEntity;
-import com.github.wallet_service.infrastructure.exitpoint.repository.entity.WalletEntity;
+import com.github.wallet_service.infrastructure.outbound.repository.entity.TransactionEntity;
+import com.github.wallet_service.infrastructure.outbound.repository.entity.WalletEntity;
 import com.github.wallet_service.infrastructure.port.TransactionRepository;
 import com.github.wallet_service.infrastructure.port.UserRepository;
 import com.github.wallet_service.infrastructure.port.WalletRepository;
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Singleton
 @Service
-public class WalletApplicationImpl implements WalletApplication {
+public class WalletUseCaseImpl implements WalletApplication {
 
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
@@ -35,8 +35,9 @@ public class WalletApplicationImpl implements WalletApplication {
 
         final var userEntity = userRepository.findById(wallet.getUserId())
             .orElseThrow(() -> new RuntimeException(String.format("User not found! userId: %s.", wallet.getUserId())));
-
+        System.err.println("userEntity: " + userEntity);
         final var walletEntity = walletRepository.save(wallet.toEntity(userEntity));
+        System.err.println("walletEntity: " + walletEntity);
 
         return WalletDTO.from(walletEntity);
     }
@@ -58,7 +59,7 @@ public class WalletApplicationImpl implements WalletApplication {
                 default -> throw new AssertionError("Order type not allowed: ".concat(order.getType().name()));
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error while executing operation.", e);
+            throw new RuntimeException("Error while executing operation, error: "+ e.getMessage(), e);
         } finally {
             processingUsers.remove(wallet.getUserId());
         }
@@ -104,7 +105,6 @@ public class WalletApplicationImpl implements WalletApplication {
         if (subtractedBalance.compareTo(BigDecimal.ZERO) < 0)
             throw new RuntimeException(String.format("Insufficient balance: %s", currentWallet.getBalance()));
         
-
         transactionRepository.save(
             TransactionEntity.builder()
                 .orderValue(order.getValue())

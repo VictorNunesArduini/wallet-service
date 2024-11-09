@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.github.wallet_service.infrastructure.entrypoint.controller.json.WalletResponse;
-import com.github.wallet_service.infrastructure.exitpoint.repository.entity.UserEntity;
-import com.github.wallet_service.infrastructure.exitpoint.repository.entity.WalletEntity;
+import com.github.wallet_service.infrastructure.outbound.repository.entity.UserEntity;
+import com.github.wallet_service.infrastructure.outbound.repository.entity.WalletEntity;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -43,6 +43,7 @@ public class WalletDTO {
             .name(this.name)
             .user(user)
             .balance(newBalance)
+            .createdAt(this.createdAt)
             .updatedAt(LocalDateTime.now())
             .build();
     }

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.github.wallet_service.infrastructure.exitpoint.repository.entity.WalletEntity;
+import com.github.wallet_service.infrastructure.outbound.repository.entity.WalletEntity;
 
 public interface WalletRepository extends JpaRepository<WalletEntity, Long> {
 

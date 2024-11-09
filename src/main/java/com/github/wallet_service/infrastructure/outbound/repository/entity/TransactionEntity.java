@@ -1,4 +1,4 @@
-package com.github.wallet_service.infrastructure.exitpoint.repository.entity;
+package com.github.wallet_service.infrastructure.outbound.repository.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

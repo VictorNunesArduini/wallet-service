@@ -3,7 +3,7 @@ package com.github.wallet_service.application.model;
 import java.time.LocalDateTime;
 
 import com.github.wallet_service.infrastructure.entrypoint.controller.json.UserResponse;
-import com.github.wallet_service.infrastructure.exitpoint.repository.entity.UserEntity;
+import com.github.wallet_service.infrastructure.outbound.repository.entity.UserEntity;
 
 import lombok.Builder;
 import lombok.Getter;
